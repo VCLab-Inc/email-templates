@@ -1,0 +1,706 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2821
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww37900\viewh19680\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+  <meta charset="UTF-8">\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+  <title>VC Lab Email Templates</title>\
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">\
+  <style>\
+    .template-content \{\
+      height: 400px;\
+      overflow-y: auto;\
+    \}\
+    .template-list \{\
+      height: 400px;\
+      overflow-y: auto;\
+    \}\
+  </style>\
+</head>\
+<body class="bg-gray-50 text-gray-800">\
+  <div class="container mx-auto px-4 py-8 max-w-6xl">\
+    <h1 class="text-3xl font-bold mb-2">VC Lab Email Templates Database</h1>\
+    <p class="text-gray-600 mb-6">Search and copy templates from Admissions, Accepted, and Programs inboxes</p>\
+    \
+    <div class="flex flex-col md:flex-row gap-2 mb-6">\
+      <input \
+        type="text" \
+        id="searchInput"\
+        placeholder="Search by title or content..." \
+        class="flex-grow p-2 border border-gray-300 rounded"\
+      >\
+      \
+      <select id="categorySelect" class="p-2 border border-gray-300 rounded">\
+        <option value="All">All Categories</option>\
+        <option value="Admissions">Admissions</option>\
+        <option value="Accepted">Accepted</option>\
+        <option value="Programs">Programs</option>\
+      </select>\
+    </div>\
+\
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">\
+      <!-- Template list -->\
+      <div class="lg:col-span-1 border border-gray-200 rounded bg-white">\
+        <div class="sticky top-0 bg-gray-100 p-2 font-bold border-b" id="templateCounter">\
+          Templates (96)\
+        </div>\
+        <div id="templateList" class="template-list divide-y divide-gray-200">\
+          <!-- Template items will be added here by JavaScript -->\
+        </div>\
+      </div>\
+\
+      <!-- Template content -->\
+      <div class="lg:col-span-2 border border-gray-200 rounded bg-white">\
+        <div id="templateHeader" class="sticky top-0 bg-gray-100 p-2 font-bold border-b flex justify-between items-center">\
+          <div id="templateTitle">Select a template</div>\
+          <button \
+            id="copyButton"\
+            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm hidden"\
+          >\
+            Copy\
+          </button>\
+        </div>\
+        <div id="templateContent" class="p-4 whitespace-pre-wrap template-content">\
+          <div class="h-full flex items-center justify-center text-gray-500">\
+            Select a template to view its content\
+          </div>\
+        </div>\
+      </div>\
+    </div>\
+\
+    <div class="mt-6 p-4 bg-gray-100 rounded">\
+      <h3 class="text-lg font-bold mb-2">Statistics</h3>\
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">\
+        <div class="bg-white p-3 rounded shadow">\
+          <div id="admissionsCount" class="text-lg font-bold text-blue-600">41</div>\
+          <div class="text-sm text-gray-600">Admissions Templates</div>\
+        </div>\
+        <div class="bg-white p-3 rounded shadow">\
+          <div id="acceptedCount" class="text-lg font-bold text-green-600">22</div>\
+          <div class="text-sm text-gray-600">Accepted Templates</div>\
+        </div>\
+        <div class="bg-white p-3 rounded shadow">\
+          <div id="programsCount" class="text-lg font-bold text-purple-600">33</div>\
+          <div class="text-sm text-gray-600">Programs Templates</div>\
+        </div>\
+      </div>\
+    </div>\
+  </div>\
+\
+  <script>\
+    // All template data organized by category\
+    const templates = [\
+      // ===== ADMISSIONS TEMPLATES =====\
+      \{\
+        title: "Admissions: request for call",\
+        template: "Thanks for reaching out! At this time we do not schedule calls, but do offer regular events to learn more about VC Lab, which also provide opportunities for questions.\\n\\nWe'd invite you to check out our AI LLM, Decile Base. We're also happy to address any questions you have in a reply here.",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Update Email Address",\
+        template: "Thanks for reaching out!\\n\\nEmail in Use:\\n\\nPlease note the email address you wish to use is currently associated with [FI Account]\\n\\nVC Lab and Founder Institute have distinct programs and are run by separate teams, so we are unable to update this account with the requested email address.\\n\\nPlease let us know how you wish to proceed. We'll be attentive to your response!",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Lead/Not Confirmed Status:",\
+        template: "You may update your email address by first logging into your account and then clicking here: https://fi.co/profile.",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Confirmed:",\
+        template: "You can update your email address by navigating to the Account tab in your FI portal and making the change there.",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Predeclined Req for Update",\
+        template: "Thank you for reaching out! At this time, our team is still processing a high volume of applications and is working diligently to provide outcomes as quickly as possible.\\n\\nUnfortunately, we are unable to provide more specific timelines or application status updates at this moment.\\n\\nAs you might want to plan should you be invited to confirm your enrollment, we are including below the first session information:\\n\\nCohort 16 begins on Wednesday, October 9 at 9 AM PT with a 1-hour Orientation Session\\n\\nAsk Me Anything (AMA) sessions take place Mondays between 9am and 11am (exact timings TBA soon) and a Webinar will be every Wednesday at 9am PT\\n\\nWe hope this helps for the time being.\\n\\nWe appreciate your patience!\\n\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "EOE: interested in applying as Team",\
+        template: "Thanks for reaching out! It's great that you've decided to apply. Your team should submit separate applications, and may use the same company name, thesis, and video when applying. Once you've applied, please let us know and we can link your applications together as a team application. We would also request that you share with us their roles within your firm.\\n\\nYou may share this link with your partners so they may apply:\\n\\n https://FI.co/apply/vc/GP\\n\\nA reminder that the application deadline for VC Lab Cohort 16 is Monday September 16th.\\n\\nWe look forward to receiving your applications!",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Application: Updated video/time",\
+        template: "Thank you for reaching out! We are happy to confirm your application for Cohort 13 has been updated to reflect your video.\\n\\nIncluding a friendly reminder to also please update the time commitment in your application, as VC Lab requires a minimum of 20+ hours per week as it is a closing program.\\n\\nOnce you've updated the time, kindly let us know and we will push your application forward for review.\\n\\nWe'll be attentive!\\n\\nBest of luck,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions: Received",\
+        template: "Thank you for reaching out! We are happy to confirm your application for Cohort 16 has been received and is queued for review.\\n\\nBest of luck,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Accel Info: Basic",\
+        template: "Sure! Happy to provide some information here. Rather than an educational program, VC Lab is a closing program for General and Managing Partners who are building VC firms. The program runs for 14 weeks and requires a minimum of 20 hours per week as the curriculum focuses on closing and is quite rigorous.\\n\\nVenture Institute is a learning program for those entering the VC industry, for associates, Venture Partners, and the like, and culminates in a residency for top performers of the cohort.\\n\\nWe invite you to join one of our regular events to learn more about what we offer. We also share recordings on LinkedIn if you are interested in viewing there.\\n\\nWe wish you the best, and look forward to receiving your application in the future.\\n\\nBest,\\nEmily\\nAssociate, VC Lab",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Accel Info: Advanced",\
+        template: "Thanks for reaching out! While the program caters towards new fund managers, we have participants with various levels of experience, even those who are on Fund II or III within the same firm. In this case, we offer a more advanced, cohesive track for someone with more experience.\\n\\nThe program runs for 14 weeks and requires a minimum of 20 hours per week as the curriculum focuses on closing and is quite rigorous.\\n\\nWe invite you to join one of our regular events to learn more about what we offer. We also share recordings on LinkedIn if you are interested in viewing there.\\n\\nWe wish you the best, and look forward to receiving your application!\\n\\nShould you have any other questions, we're here to help.\\n\\nBest,\\nEmily\\nAssociate, VC Lab",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Unsubscribe Request",\
+        template: "Per your request, we have unsubscribed you from our email list.\\n\\nAll the best,\\nVC Lab Team",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Job/Intern",\
+        template: "Thank you for your interest in VC Lab. While this inbox does not receive job inquiries, we are currently hiring for various roles which you may see here. Should you be a good fit, our team will be in touch.\\n\\nIn the meantime, we hope to see you at an event in the future!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions Rolling Basis",\
+        template: "Thanks for reaching out! We are happy to confirm your application for Venture Institute Cohort 3 has been received and is queued for review. Admissions occur on a rolling basis, and our team is currently still reviewing applications. Due to the large number of applicants, specific timelines or further application acceptance updates are not available at this time.\\n\\nWe appreciate your patience!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Move Application",\
+        template: "Thanks for reaching out! We have moved your application to the Venture Institute Cohort 3 enrollment track. Should you not be able to access the application, please let us know.\\n\\nWe look forward to receiving your application!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "EOE: Interested in Cohort",\
+        template: "Thanks for letting us know! A reminder that the deadline is November 20th.\\n\\nLinking the application here for your convenience! We look forward to receiving your application.\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Application: video",\
+        template: "Thank you for reaching out! We are happy to confirm your application for Cohort 13 has been updated and ready for review.\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Decline/Rejection Feedback",\
+        template: "Thanks for reaching out! Due to the large number of applicants, we are unable to provide individual feedback. Please know that each application is considered individually and carefully.\\n\\nWe are happy to share ways you can improve and update your application for a better chance for acceptance.\\n\\n* A well-worded investment Thesis with a measurable value add (see https://vcl.to/thesis)\\n* A professional 2 minute application video answering the 2 requested questions\\n* A clear statement on how VC Lab can help you build your VC firm\\n* A complete LinkedIn profile with a solid number of connections\\n* Proof of an appropriate amount of available time to fundraise and form a fund\\n* Updating an old and outdated application video\\n\\nWe also invite you to attend our regular events as well, which provide advice on creating a competitive application.\\n\\nI'll also include some information here regarding our Venture Institute, our educational program which may be a better fit for you.\\n\\n\\nBest,",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Application: Time",\
+        template: "Thank you for reaching out! We are happy to confirm your application for Cohort 13 has been updated to reflect the new time commitment.\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "VI Application Update:",\
+        template: "I'm happy to confirm the receipt of your application! Please note that while the confirmation may say 24 - 48 hours, the turnaround time will not be that fast. Our team has just closed out enrollment for VC Lab Cohort 12 and it will take a bit of time to process all the new applications for Venture Institute.\\n\\nAdmissions occur on a rolling basis, and our team is currently still reviewing applications. Due to the large number of applicants, specific timelines or further application acceptance updates are not available at this time.\\n\\nBest of luck!\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Create Separate Account: FI",\
+        template: "Thanks for reaching out! We recommend creating a separate account in order to apply for VC Lab programs. Once you do, you should be able to select Cohort 12 as an option. We look forward to receiving your application!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions: Carta",\
+        template: "Enrollment for Cohort 12 is currently underway; however, we noticed that your team may be working with Carta. As we are a values-first organization, we typically cannot help fund managers that are engaged with Carta for back office activities.\\n\\nCan you please confirm whether you have signed with Carta? If you are not working with Carta or plan to stop working with them, we're happy to queue your application for the team for review.\\n\\n\\nEmily\\nAssociate, VC Lab",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "GPs/MPs only: VI No Experience",\
+        template: "Hi\\n\\nThanks so much for providing this clarifying information.\\n\\nVC Lab Accelerator is for General Partners (GPs) and Managing Partners (MPs) only as it is a closing program for firm managers.\\n\\nI'm happy to provide you information regarding our Venture Institute and provide a priority in your application review.\\n\\nShould your positions as they currently stand change to GP or MP, please let us know, at which point we can reconsider you for a future cohort.\\n\\nWe appreciate your understanding!\\n\\nKindly,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Referral to Cohort:",\
+        template: "That's great, thank you! Here are the links they can use below:\\n\\n Apply: https://FI.co/apply/vc/ref\\n Social: https://lnkd.in/g_AGKuBD\\n\\nIf your referral would like to use either of these links that would be great, and they can also mention you in their application.",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "NO Experience: VI",\
+        template: "Thank you for letting us know! I'll also include some information here regarding our Venture Institute, our educational program which might be a better fit for you.\\n\\nWe welcome you to continue to attend any of our regular events, and when you are ready, you may switch your application to the cohort of your choice.\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Int'l participation query",\
+        template: "Thank you for reaching out! Happy to provide some more info here. VC Lab is absolutely open to you! We are a global program, and are fully virtual.\\n\\nPlease feel free to sign up for an event or apply for our next cohort here.",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "FI Mentor Janet",\
+        template: "Thank you for reaching out! I'm happy to cc Janet from Founder Institute here to touch base with you about becoming a mentor.\\n\\nBest,",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions: Role Clarification",\
+        template: "Hi\\n\\nOur Admissions Team is currently reviewing your application. Will you kindly clarify with us your role within your firm? You may reply to this email message here.\\n\\nWe'll be attentive!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Decline/Request to Defer",\
+        template: "Thank you so much for letting us know! We have updated your participation status to reflect your request. Please note that while you will need to re-apply to a future cohort, we welcome you to continue to attend any of our regular events, and when you are ready, you may switch your application to the cohort of your choice.\\n\\nBest,",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Interest in Venture Institute",\
+        template: "Thank you for your interest in Venture Institute! We look forward to receiving your application.\\n\\nBest,",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions Deadline Past",\
+        template: "Thanks for reaching out! We appreciate your support! The final deadline has now passed. We welcome you to continue to attend any of our regular events where you can get advice on creating a competitive application, and when you are ready, you may switch your application to the cohort of your choice.\\n\\nWe look forward to you joining in the future!\\n\\nBest,",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Duplicate Video/Time Requests",\
+        template: "Thank you for reaching out! It may be that you have multiple FI accounts. If you applied to Cohort 11 with the same login rather than creating a new one, this may be why you keep receiving this particular email. You may disregard. We are happy to confirm your application for Cohort 11 has been updated and ready for review. Apologies for the confusion!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions: Video",\
+        template: "That's great news! Please note that your required video has not yet been submitted on your applications. It can be simple so long as it directly addresses the information requested. You can present yourself professionally and succinctly, but the production itself needn't be overly advanced.\\n\\nOnce submitted, please let us know and we will push your application forward for review.\\n\\nBest,",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Application Update Query 2",\
+        template: "Happy to provide an update here! Your application is currently queued for review. Due to the large number of applicants, more specific timelines and application status updates are not available at this time.\\n\\nWe appreciate your patience!",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "GPs/MPs only",\
+        template: "At this time, only GPs and MPs are participants in the Accelerator as it's a closing program for fund managers. \\n\\nThey are welcome to join our regular events to learn more about VC Lab. \\n\\nWe appreciate your understanding!",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Application Status Query",\
+        template: "Thanks for reaching out! Due to the large number of applicants, specific timelines or application status updates are not available at this time. \\n\\n\'97-\\n\\nWe appreciate your patience!\\n\\nThank you for reaching out! While we can confirm we have received your application to [Cohort 11], specific timelines or application status updates are not available at this time.\\n\\nWe appreciate your patience!",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Referral Links",\
+        template: "That's great, thank you! Here are the links they can use below:\\n\\nFI Website: https://FI.co/apply/vc/ref\\nLinkedIn: https://vcl.to/ref-week\\n\\nIf your referral would like to use either of these links that would be great, and they can also mention you in their application.",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Previous Participant: Re-do Work",\
+        template: "Thanks for reaching out! Great question. Yes, everyone starts from scratch. If you saved work from your previous cohort, you could revamp that work and submit. That being said, our curriculum has been updated since [Cohort 4], so this will be an opportunity for you to improve on the work you've already done.\\n\\nWe look forward to receiving your updated application!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Links for FI programs:",\
+        template: "If you are looking to run an accelerator, please check out Accelerator Lab by the Founder Institute:\\n\\nhttps://FI.co/acceleratorlab\\n\\nIf you are looking to build a startup or secure funding, please join the Founder Institute main program:\\n\\nhttps://FI.co/join",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Feedback Request:",\
+        template: "Thank you for reaching out! Due to the large number of applications received, specific details regarding acceptance status is not available at this time.\\n\\nWe appreciate your patience and wish you the best!\\n\\nDue to our large number of applicants, individual feedback is not something we are able to provide at this time.\\n\\nWe appreciate your patience!\\n\\nBest,\\nVC Lab Team\\n\\n\\nThanks for your patience. Due to our large number of applicants, individual feedback is not something we are able to provide at this time.\\n\\nWe wish you the best!\\n\\nKindly,\\nVC Lab Team",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Admissions: Not Interested",\
+        template: "Thank you for letting us know! We welcome you to continue to attend any of our regular events, and when you are ready, you may switch your application to the cohort of your choice. \\n\\n------\\n\\nWe hope to see you at our regular events, and when you are ready, will happily receive your application to a future cohort.\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+      \{\
+        title: "Video Library: LI",\
+        template: "Thanks for reaching out! We encourage you to peruse our video library on LinkedIn for valuable information from VC Lab virtual events. \\n\\nWe hope this helps!\\n\\nBest,\\nEmily",\
+        category: "Admissions"\
+      \},\
+\
+      // ===== ACCEPTED TEMPLATES =====\
+      \{\
+        title: "Defer Request:",\
+        template: "Thank you for reaching out and keeping us informed. While we don't offer enrollment deferrals, we will prioritize your application for the next cohort, which is currently scheduled to begin in May. Once the enrollment cycle opens, you'll be able to move your application, and our team will ensure it receives priority review!\\nAll the best until then!\\n\\n\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "Cap Table Request:",\
+        template: "Thank you for providing more information regarding your team structure. Please note that VC Lab is designed for General and Managing Partners.\\n\\nTo ensure alignment with our program's requirements, we kindly request that you send us your Management Company (ManCo) Cap Table and General Partner (GP) Cap Table. These documents should reflect the ownership percentages of your team within your firm, which helps us verify the roles and responsibilities of your team members.\\n\\nIf you have any questions or need further assistance, please feel free to reach out.\\n\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Confirm Link w/Pay",\
+        template: "Thank you for your support of the Mensarius Oath! We are looking forward to welcoming you to Cohort 17 and will send you an official confirmation shortly.\\n\\nIn the meantime, please go to the link below and select your enrollment package. The free Basic enrollment remains free of charge, so should you wish to join with the Basic enrollment you can just let us know here. Otherwise, if you choose Raise, you may process your payment using the link provided.\\n\\n  https://govclab.com/enrollment/\\nSelect the package that best fits your needs:\\n\\n* Basic: Essential training and community\\n* Raise: One-on-one expert assistance\\n\\nWe're excited to have you join us!\\n\\n\\nBest,\\nEmily\\n\\n\\nAddendum: Basic Upgrade for principals, associates, and other non-GPs\\nPayment link: https://buy.stripe.com/6oE8Apfus3NPfBe8wJ",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "VI C4 to C5 Push",\
+        template: "Thank you for your email confirming your enrollment in our program! We're excited to have you as part of our community, and we appreciate your commitment.\\nHowever, due to the overwhelming response, Cohort 4 has now reached full capacity. We've automatically transferred your enrollment to Cohort 5, which is scheduled to begin in June 2025. This ensures that you maintain your place in the program while allowing us to create the best possible learning experience for all participants.\\nWe look forward to welcoming you to Cohort 5. We'll share more details about the program as we get closer to the start date.\\nThank you once again for your enthusiasm and understanding. We look forward to welcoming you to Cohort 5!\\n\\nBest,\\nEmily & the Venture Institute Team",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "VI MO Refusal",\
+        template: "Thank you for reaching out! We're happy to make an exception in this case for your Venture Institute enrollment and accept a signed copy until, if you'll please sign at the link we've shared here below and then share the document here we can go ahead and confirm your enrollment. Also, please note the post itself does not necessarily need to reference Venture Institute, only a show of support for the Mensarius Oath. Please note that for the VC Lab program this remains a mandatory step in the process. \\n\\nWe'll be attentive to your response!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "VI MO Confirmation",\
+        template: "Thank you for your support of the Mensarius Oath! We are happy to confirm your placement in Venture Institute Cohort 4, which is provisionally due to start the week commencing January 13th. \\nWe will be in touch with next steps in the coming weeks.\\n\\nWe look forward to you joining us!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "Basic Enrollment Confirmation",\
+        template: "Thanks for letting us know. \\nJust a friendly reminder - should you decide to upgrade later, please note the prices will go up once the cohort begins.\\nLooking forward to you joining us!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Need LinkedIn",\
+        template: "Thanks so much for sharing your post on X. We do, however, request you post the Mensarius Oath on LinkedIn. Once we receive the link to your LinkedIn post, we can move forward with confirming your placement in Cohort 17.\\n\\nWe'll be attentive!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "LP Institute Confirmation",\
+        template: "We appreciate your support of the Mensarius Oath! We are happy to confirm your placement in LP Institute Cohort 3. We will be in touch with additional information soon.\\n\\nWe look forward to you joining us!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Previously Enrolled:",\
+        template: "Thanks for sharing! We require all managers, including those previously enrolled and re-enrolled in another cohort, to publicly post their support for the Mensarius Oath on their LinkedIn and X accounts. This helps us reinforce the message with each cohort, as it's part of our mission to improve the venture capital industry.\\n\\nOnce you've posted publicly on LinkedIn, please let us know and we will verify and be in touch with next steps.\\n\\nWe appreciate your cooperation in this matter!",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "PreDecline Req for Update",\
+        template: "Thank you for reaching out! At this time, our team is still processing a high volume of applications and is working diligently to provide outcomes as quickly as possible. Unfortunately, we are unable to provide more specific timelines or application status updates at this moment.\\n\\nAs you might want to plan should you be invited to confirm your enrollment, we are including below the first session information: Cohort 16 begins on Wednesday, October 9 at 9 AM PT with a 1-hour Orientation SessionAsk Me Anything (AMA) sessions take place Mondays between 9am and 11am (exact timings TBA soon) and a Webinar will be every Wednesday at 9am PTWe hope this helps for the time being.\\n\\nWe appreciate your patience!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Refusal for Post 2",\
+        template: "We sincerely appreciate your support and personal alignment with the values of the Mensarius Oath. It is our foundational document and embodies our commitment to fostering an ethical VC industry. As such, public endorsement of the Mensarius Oath is a prerequisite for enrollment by all participants to build trust and credibility with potential partners, investors, and the wider community. We regret any confusion regarding this requirement.\\n\\nAs participants of our free program, we hope you'll join us in publicly championing these values. However, we understand that this may not align with everyone, and we respect your decision if you choose not to join the cohort by declining to post.\\nWe'll be attentive to your decision!\\nWe wish you all the best! Should you ever have any questions or interest moving forward, we're here to help!",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "General Solicitation",\
+        template: "Subject: Important: Please Review and Update Your Post\\n\\nWe noticed that your recent post contains information that may be considered general solicitation, such as your fund thesis, mentions that you are starting/fundraising for a fund or other sensitive details. To ensure compliance with regulations and avoid any potential issues, we kindly ask you to review and update your post accordingly.\\n\\nFor more information on general solicitation and what can and cannot be shared publicly, please refer to our General Solicitation guide.\\n\\nThank you for your understanding and cooperation!\\n\\nBest,\\nVC Lab Team",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "Not Interested",\
+        template: "Thank you for letting us know! We welcome you to continue to attend any of our regular events, and when you are ready, you may switch your application to the cohort of your choice. \\n\\n------\\nWe hope to see you at our regular events, and when you are ready, will happily receive your application to a future cohort.\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Confirmation",\
+        template: "Thank you for your support of the Mensarius Oath! We are looking forward to welcoming you to Cohort 16 and will send you an official confirmation shortly.\\n\\nIn the meantime, please go here and select your enrollment package.\\n\\nhttps://govclab.com/enrollment/\\n\\nWe're excited to have you join us!\\n\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Private",\
+        template: "Congrats! Thanks for sending the links so promptly! It appears the posting of the Mensarius Oath on LinkedIn is on a private page. Can you please re-post sharing publicly so our team can access it?\\n\\nYou may need to delete and repost first in order for us to access the link.\\nOnce you've posted publicly on LinkedIn, please let us know and we will verify and be in touch with next steps. \\n\\nWe appreciate your cooperation in this matter!\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Refusal to Share",\
+        template: "Thank you for reaching out! We understand your situation! However, in order to confirm enrollment, the Mensarius Oath must be shared publicly on your individual LinkedIn and Twitter accounts. Our request is only that you show your support for the Mensarius Oath and the values it upholds. You need not mention your fund or participation in VC Lab.\\n\\nAs a reminder, the posting of the Mensarius Oath is a mandatory step in the enrollment process, and is an integral part of our collaboration moving forward. We ask that you do this to reinforce this message, as it's our mission to change the VC industry for the better.\\n\\nOnce you've posted publicly on LinkedIn, please let us know and we will verify and be in touch with next steps.\\n\\nWe appreciate your cooperation in this matter! Should you have any questions, we're here to help.\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Posted Incorrectly",\
+        template: "The link you have shared here is a posting of the Mensarius Oath within the comments section of VC Lab's own page. We request that you publicly share it as its own post on your page.\\n\\nAs a reminder, the posting of the Mensarius Oath is a mandatory step in the enrollment process, and is an integral part of our collaboration moving forward. We ask that you do this to reinforce this message with every cohort, as it's our mission to change the VC industry for the better.\\n\\nOnce you've posted publicly on LinkedIn, please let us know and we will verify and be in touch with next steps.\\n\\nWe appreciate your cooperation in this matter!\\n\\nBest,",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Posted on Fund Page",\
+        template: "Thanks for providing these links here. We do appreciate the support. However, we kindly ask that you share your support for the Mensarius Oath on your individual profile rather than a statement posted on your fund's page. \\n\\nOnce you've reposted, please share the link and we will verify and confirm your placement in Cohort 16.\\n\\nWe'll be attentive! Should you have any questions, we're here to help.\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Sign Offline",\
+        template: "Thank you for sharing your situation with us. You and your team members may each sign the Mensarius Oath here. \\n\\nWe do kindly request that as soon as you are able, you post the Mensarius Oath publicly on LinkedIn and X (at minimum LinkedIn). Please let us know when you expect to be able to share it. \\n\\nOnce you've signed the Oath, please email the completed links back to us and we'll share the next steps to confirm your enrollment.\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Individual Statement",\
+        template: "Thanks for providing these links here. We do appreciate the support. However, we kindly ask that you include a specific statement of individual support for the Mensarius Oath within your post, \\"I support\\" or \\"I endorse,\\" etc. \\n\\nOnce you've edited or reposted (it can be a quick edit to your post itself--not in the comment section), we will verify and confirm your placement in Cohort 16.\\n\\nWe'll be attentive! Should you have any questions, we're here to help.\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+      \{\
+        title: "MO Indiv vs Fund",\
+        template: "Thanks for providing these links here. We do appreciate the support. However, we kindly ask that you include a specific statement of individual support for the Mensarius Oath within your post, \\"I support\\" or \\"I endorse,\\" rather than a statement on behalf of your fund, or posted on your fund's page. \\n\\nOnce you've edited or reposted (it can be a quick edit to your post itself--not in the comment section), we will verify and confirm your placement in Cohort 15.\\n\\nWe'll be attentive! Should you have any questions, we're here to help.\\n\\nBest,\\nEmily",\
+        category: "Accepted"\
+      \},\
+\
+      // ===== PROGRAMS TEMPLATES =====\
+      \{\
+        title: "Firm Update Reply",\
+        template: "Thank you very much for providing this update. We appreciate it.\\n\\n\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "VI Drop Request",\
+        template: "Thanks for reaching out and letting us know! We will proceed with processing your request and deactivating your Venture Institute accounts.\\n\\nPlease note that we do not defer enrollment, and at this time, Venture Institute operates under a one-time participation policy. If you choose to reapply in the future, you may update your application with any relevant information for our team to reconsider.\\nWishing you all the best!",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Outlook Calendar Sync",\
+        template: "Here are the steps to integrate your calendar:\\n\\nFor Outlook on Desktop (Windows or Mac):\\n\\nGet the Calendar URL from Google Calendar\\nOpen your Google Calendar in a web browser.\\nOn the left side, under My Calendars, hover over the calendar you want to add to Outlook.\\nClick on the three dots (\uc0\u8942 ) next to the calendar name and select Settings and sharing.\\nScroll down to \\"Integrate Calendar\\" and find the Secret address in iCal format.\\nCopy the iCal URL.\\nAdd to Outlook:\\nOpen Outlook:\\nGo to File > Account Settings > Account Settings again.\\nGo to the Internet Calendars tab.\\nClick New.\\nPaste the iCal URL you copied from Google Calendar, then click Add.\\nIn the Folder Name field, you can rename the calendar if you like.\\nClick OK.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "PACT Discrepancy",\
+        template: "Thank you for submitting your Thesis Review! Our team is currently verifying your PACTs and noticed a discrepancy between the information submitted in your Google Form and what is reflected in Decile Hub. \\n\'95 Google Form: Mentioned \\n\'95 Decile Hub: Currently reflects \\nWill you please clarify to ensure accurate processing and alignment? \\nWe'll be attentive to your response!\\n\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "ENABLE VC lab assist/Refusal",\
+        template: "Thank you for submitting your Thesis Review. Our team is currently unable to verify the PACT amount, as VC Lab Assist is not enabled in your Decile Hub account.\\nIf you prefer not to share or enable access to your PACTs, you can provide alternative evidence. This can be an email or other form of written communication. Names can be redacted, but the commitment amounts and date committed must be clear.\\n\\nWe'll be attentive to your prompt reply so that our team may complete your review.\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Need PACT Evidence",\
+        template: "Thank you for submitting your Thesis Review! To align with the Review requirements, we kindly request evidence of signed hard commitments from your LPs.\\nIf you prefer not to share or enable access to your PACTs, you can provide alternative evidence. This can be an email or other form of written communication. Names can be redacted, but the commitment amounts and date committed must be clear.\\nWe look forward to your response.\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Dropping Out - Not a Good Time",\
+        template: "Thanks for your response! We will go ahead and process your request on our end and deactivate your FI Portal and remove your Slack community access, but as we've shared you'll keep access to Decile Hub to continue your firm building efforts. When it's a better time for you, you may login to your fi.co portal and move your application to the Cohort of your choice.\\n\\nAs a standard policy, we do not typically defer enrollment. However, given that you have been accepted once, the likelihood of acceptance in a subsequent cohort is high! We'll also leave a note for our Admissions Team to prioritize your review. Please be reminded of our 2x maximum participation policy whereby program participants can only participate in a maximum of two VC Lab cohorts.\\n\\nPlease be sure you update the application where relevant to increase your chances of being admitted.\\n\\nAll the best to you!\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Accessing Sprints - Sweet",\
+        template: "Sure - you can log into fi.co with the email associated with your Cohort 16 application and you'll see access to the sprints on the Homepage of your FI portal. You can also click on the Deliverables tab at the top.\\n\\nFor more information on sprints, you can also refer to the VC Lab Handbook found here.\\n\\nI hope this helps!\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Accessing Sprints - Spicy",\
+        template: "Thank you for reaching out! We've shared the instructions on how to submit sprints via email, Slack, and the VC Lab Handbook. However, we're happy to share them with you again here for your convenience:\\n\\nTo complete the sprints:\\nLog into fi.co with the email address associated with your VC Lab application.\\nComplete the work offline to keep a backup.\\nSubmit each deliverable with considerable detail",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "DROP out query",\
+        template: "Yes, you can definitely drop if the timing isn't optimal right now. Please submit a Drop Out Request in your portal and we can process your request from there. Please ensure you have saved your Sprint work offline.\\nAs a standard policy, we do not typically defer enrollment. However, given that you have been accepted once, the likelihood of acceptance in a subsequent cohort is high. We'll also make a note with our Admissions team so they can prioritize your review.\\nPlease note that VC Lab offers paid programs now, including a basic free option. Upon acceptance to a new cohort, you will be asked to choose from one of our enrollment packages found here in order to confirm your participation.\\nhttps://govclab.com/enrollment/\\n\\nYou may update your application to reflect any progress you may have made from the last time you applied. Please be reminded of our 2x maximum participation policy whereby program participants can only participate in a maximum of two VC Lab cohorts.\\n\\nOnce you've submitted your Drop Out Request, I will deactivate your FI Portal and remove your Decile Base Network community access. You will keep access to Decile Hub to continue your fundraising progress. You will then be able to move your application in 1 click to the open admissions period of your choice.\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Schedule Office Hours",\
+        template: "Please note Decile Hub and the FI portal are two different sites (it can be confusing!). To schedule Office Hours, you'll need to log in to your FI portal. \\nWhen you login to the FI portal, you'll see a green Schedule Office Hours button on your Home page. Please ensure you're logging in with the address associated with your Cohort 15 address. Should Office Hours be available, you'll be taken through the next steps of scheduling a time. \\nIf no office hours are currently available, you can look forward to Mike and Myrto opening more time slots soon.\\n\\nI hope this helps!",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "WG Request",\
+        template: "Thank you for reaching out! Your request has been noted.\\n\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Verifying Hard Commitments",\
+        template: "Thank you for submitting your Thesis Review! Our team has noted that you mentioned you have $10.5MM in hard commitment. As you do not use PACTs, we kindly request that you share evidence of these hard commitments. We typically ask for signed evidence to validate the amount and ensure the commitments aren't from GPs or close relations. If you're uncomfortable sharing specific names, feel free to redact them and use another file-sharing system. Any written evidence, even an email, that includes the commitment and amount will work. \\nWe understand the need to provide some flexibility in the program. We ensure you're doing the work that will ultimately benefit you and your fund. If you'd like to discuss this further, we'd be happy to connect you to our team as the program progresses.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Hub Support",\
+        template: "Thank you for reaching out! In order to resolve this matter, we'd kindly request that you reach out to our product team via Slack at #decile-hub-support.\\n\\nYou can reach them via Decile Base here. [https://www.decilehub.com/base/8-hub_support]\\n\\nShould you continue to have difficulties, please let us know and we'll look into the matter further in order to resolve this for you.\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Call Request",\
+        template: "Thanks for reaching out! At this time we do not schedule calls, however, if you'd like to share your questions here we'd be happy to answer them. \\nIf necessary, we can loop in other team members or possibly schedule a call.\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Dropping Out - 2x Participant",\
+        template: "Thank you for reaching out with this update. We'll process your drop from Cohort 14 and deactivate your VC Lab accounts. You'll keep access to Decile Hub, of course.\\nIn light of your 2x program participation thus far, while we are unable to extend an invitation back to a future cohort, we would encourage you to touch base with us once the 750K PACT threshold has been met in order to rejoin our community as having completed the program. \\nWe're confident you can do this! \\nAll the best,\\nVC Lab Team",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "VI Repeat Query - wants to return",\
+        template: "Thanks for reaching out! At this time, participation in Venture Institute is considered a one-time opportunity. This decision is based on the high demand from individuals who have not yet participated, and we want to ensure that as many people as possible can benefit. \\nWe appreciate your understanding of our current policy, and we encourage you to stay connected with us for any future developments or adjustments. Your continued interest is valuable to us.\\n\\nAll the best to you!\\n\\nKindly,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "VI Extension Request",\
+        template: "Thanks for reaching out and providing this update! We don't provide traditional extensions to deadlines in Venture Institute, but I'm happy to make a note of your situation to share with the team. We appreciate you proactively communicating here and encourage you to submit your work as soon as you can.\\n\\nJust as a note moving forward, we are looking at timeliness and quality of work, and encourage you to submit your work early rather than late. You can always put a simple submission or placeholder in the sprints, and then go back and update and improve your work.\\n\\nShould you have any questions, we're here to help!\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Late Sprint Update",\
+        template: "Thanks for letting us know! We look forward to receiving your sprint.\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Adding PACTs/Sharing",\
+        template: "Happy to help! Including some instructions shared by our Hub team on how to upload PACTs and change share settings.\\n\\nGo to PACTs section in the left nav bar\\nTo the right of every pact there is a Download button. Click that for every pact to download them\\nGo to Files > My Files (from the left navigation bar)\\nOnce you are there, use a Create New Folder button in the top right corner\\nOnce you create it, it will take you to this folder. Then you should use the  Upload Files button in the top right corner to upload the PACTs you previously downloaded\\nThen, you should select the Sharing Settings button, also in the top right section of the page. There, make sure that Allow All Option is selected for the Allow Viewers\\nSave the changes and then use the chain button next to the Sharing Settings to copy the url to this folder and share it with the team",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Extension Request",\
+        template: "Thanks for reaching out! We can provide an extension until Monday the 25th at 5 PM PT to submit both sprints. \\n\\nJust a reminder that it's very important to keep on top of your sprints so you don't fall too far behind, otherwise we may ask you to re-apply to a future cohort.\\n\\nLooking forward to receiving your work!\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Update email address",\
+        template: "Thanks for reaching out! You may update your email address by logging into the portal and clicking on Account.\\n\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Extreme Request for Extension",\
+        template: "Thanks for reaching out. We appreciate the update; however, while we can provide an extra few days until Wednesday at 5 PM PT to complete the missing work, we cannot provide an extra week as you are falling too far behind. Our goal is to keep you caught up so you can continue in the program successfully.\\nShould your personal circumstances prevent you from catching up, we absolutely understand and can invite you to reapply for a future cohort when the timing may be better for you.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Zoom/Calendar invite",\
+        template: "I'm happy to help! Confirming here the invite was sent, although sometimes it takes a minute to land properly. Please make sure it didn't land in your spam folder as this can happen at times.\\n\\nI'll include the meeting info here just in case. Invites will hopefully start showing up soon!\\n\\nPlease click the link below to join the webinar:\\n\\n\\n\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Enable VC Lab Assistant",\
+        template: "We cannot view your personal data on Hub unless you have enabled VC Lab associate access. Could you either send these to us as an email attachment or share permission with us on the portal? \\nTo share permission on the portal you can do the following:\\nGo to Firm settings --> Team --> Enable VC Lab Assistant\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "GP/MP only",\
+        template: "VC Lab Accelerator is for General Partners (GPs) and Managing Partners (MPs) only as it is a closing program for fund managers. \\nI'm happy to provide you information regarding our Venture Institute and provide a priority in their application review.\\nShould their position as they currently stand change to GP or MP, please let us know, at which point we can reconsider them for a future cohort.\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "where is slack link",\
+        template: "Thanks for reaching out. Slack invites will be forthcoming around the middle of this week.\\nWe appreciate your patience!\\nBest,\\nEmily",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Re-Admit + GP/MPs",\
+        template: "We're happy to provide next steps. We have updated your account to Cohort 11; however, we request you please complete the following steps:\\nlog in to the portal and submit your application to Cohort 11\\nre-post your support of the Mensarius Oath to your individual LinkedIn and Twitter accounts, and send us the links to vclab@decilegroup.com. Once we verify, we'll confirm your placement in Cohort 11 and send you calendar invites and additional information. \\nShould you have a fellow GP or MP applying, they can complete these steps:\\nOpen an account and apply through the portal\\nThey may use the same thesis, video, and company name\\nPost the Menarius Oath to their individual LinkedIn and Twitter accounts\\nEmail us the links to their post to vclab@decilegroup.com\\nWe look forward to you joining Cohort 11! Should you have any questions, please let us know.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Readmit to new cohort",\
+        template: "We're happy to provide next steps. We have updated your account to Cohort 11; however, we request you please complete the following steps:\\nlog in to the portal and submit your application to Cohort 11\\nre-post your support of the Mensarius Oath to your individual LinkedIn and Twitter accounts, and send us the links to vclab@decilegroup.com. Once we verify, we'll confirm your placement in Cohort 11 and send you calendar invites and additional information. \\nWe look forward to you joining Cohort 11! Should you have any questions, please let us know. \\n\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Sprint article for FI",\
+        template: "Thank you! We'll send this on to the FI marketing team to get this lined up for publishing.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Referral",\
+        template: "That's great, thank you! Here are the links they can use below:\\n\\nFI Website: https://FI.co/apply/vc/ref\\nLinkedIn: https://vcl.to/ref-week\\n\\nIf your referral would like to use either of these links that would be great, and they can also mention you in their application.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "ES PACT Accessible copy request",\
+        template: "Hi <n>,\\nThank you for completing your Epic Sprint! Can you send a copy of the PACTs in either a pdf form or via Google Drive to us here, please?\\n\\nMuch appreciated!\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Drop Out Confirmed",\
+        template: "Hi <n>,\\nYes, you can definitely do that if the timing doesn't work. However, you would need to re-apply to a future cohort as we cannot move you. Please be reminded of our 2x maximum participation policy whereby program participants can only participate in a maximum of two VC Lab cohorts. \\nThat being said, if you have made it into a program once, chances are high that you will get in again. Make sure to update your application to reflect any progress you may have made since the last time you applied to further increase your chances of getting in.\\n\\nBased on the above, I will deactivate your Portal and Slack accounts, at which point you will be able to move your application in 1 click to the open admissions period of your choice.\\nLooking forward to working with you again soon!\\nBest,",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "Epic Sprint Received",\
+        template: "Epic Sprint received! Our team will review and be in touch with results soon.",\
+        category: "Programs"\
+      \},\
+      \{\
+        title: "High Fund I Size",\
+        template: "Hey Sabrina,\\nWe're not the fund size police. That being said, most large institutions do not back new managers because there is no track record to diligence for the fund. For you to get this fund done, you will need multiple tickets in the $5m range, and those types of ticket writers are not only extremely unlikely to invest (especially in 2023), but most are prevented by charter to make this type of investment. In the unlikely event they are not prevented by charter, the majority are majorly over-allocated in VC and are going to be extremely conservative with their investment strategy.\\n\\nWe strongly recommend that you drop this fund size to $10m or less and over-subscribe if things go well. Focus on HNWI. They will fund the vast majority of this fund. Maybe, if things go extremely well, you will get a family office in Fund 1. Even then, the family office is unlikely to come into your 1st close and you will likely not be able to have enough information to fill in their investor questionnaires.",\
+        category: "Programs"\
+      \}\
+    ];\
+\
+    // DOM Elements\
+    const searchInput = document.getElementById('searchInput');\
+    const categorySelect = document.getElementById('categorySelect');\
+    const templateList = document.getElementById('templateList');\
+    const templateTitle = document.getElementById('templateTitle');\
+    const templateContent = document.getElementById('templateContent');\
+    const copyButton = document.getElementById('copyButton');\
+    const templateCounter = document.getElementById('templateCounter');\
+    const admissionsCount = document.getElementById('admissionsCount');\
+    const acceptedCount = document.getElementById('acceptedCount');\
+    const programsCount = document.getElementById('programsCount');\
+\
+    // Current selected template\
+    let selectedTemplate = null;\
+\
+    // Initialize\
+    function initialize() \{\
+      // Set up event listeners\
+      searchInput.addEventListener('input', renderTemplateList);\
+      categorySelect.addEventListener('change', renderTemplateList);\
+      copyButton.addEventListener('click', copySelectedTemplate);\
+      \
+      // Update statistics\
+      admissionsCount.textContent = templates.filter(t => t.category === "Admissions").length;\
+      acceptedCount.textContent = templates.filter(t => t.category === "Accepted").length;\
+      programsCount.textContent = templates.filter(t => t.category === "Programs").length;\
+      \
+      // Render initial template list\
+      renderTemplateList();\
+    \}\
+\
+    // Filter templates based on search and category\
+    function getFilteredTemplates() \{\
+      const searchTerm = searchInput.value.toLowerCase();\
+      const category = categorySelect.value;\
+      \
+      return templates.filter(template => \
+        (category === 'All' || template.category === category) &&\
+        (template.title.toLowerCase().includes(searchTerm) || \
+         template.template.toLowerCase().includes(searchTerm))\
+      );\
+    \}\
+\
+    // Render the template list\
+    function renderTemplateList() \{\
+      const filteredTemplates = getFilteredTemplates();\
+      \
+      // Update counter\
+      templateCounter.textContent = `Templates ($\{filteredTemplates.length\})`;\
+      \
+      // Clear the list\
+      templateList.innerHTML = '';\
+      \
+      if (filteredTemplates.length === 0) \{\
+        templateList.innerHTML = `\
+          <div class="p-4 text-gray-500 text-center">\
+            No templates found. Try adjusting your search.\
+          </div>\
+        `;\
+        return;\
+      \}\
+      \
+      // Add each template to the list\
+      filteredTemplates.forEach(template => \{\
+        const li = document.createElement('div');\
+        li.className = `p-2 cursor-pointer hover:bg-gray-100 $\{selectedTemplate === template ? 'bg-blue-100' : ''\}`;\
+        li.innerHTML = `\
+          <div class="font-medium">$\{template.title\}</div>\
+          <div class="text-xs text-gray-500">$\{template.category\}</div>\
+        `;\
+        li.addEventListener('click', () => \{\
+          selectTemplate(template);\
+        \});\
+        templateList.appendChild(li);\
+      \});\
+    \}\
+\
+    // Select a template\
+    function selectTemplate(template) \{\
+      selectedTemplate = template;\
+      \
+      // Update the template content area\
+      templateTitle.textContent = template.title;\
+      templateContent.innerHTML = `<pre class="whitespace-pre-wrap">$\{template.template\}</pre>`;\
+      \
+      // Show the copy button\
+      copyButton.classList.remove('hidden');\
+      \
+      // Update the selected item in the list\
+      renderTemplateList();\
+    \}\
+\
+    // Copy the selected template to clipboard\
+    function copySelectedTemplate() \{\
+      if (!selectedTemplate) return;\
+      \
+      navigator.clipboard.writeText(selectedTemplate.template)\
+        .then(() => \{\
+          alert('Template copied to clipboard!');\
+        \})\
+        .catch(err => \{\
+          console.error('Failed to copy: ', err);\
+          alert('Failed to copy to clipboard. Your browser may not support this feature.');\
+        \});\
+    \}\
+\
+    // Initialize the app\
+    initialize();\
+  </script>\
+</body>\
+</html>}
